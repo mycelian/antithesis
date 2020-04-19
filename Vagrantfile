@@ -74,6 +74,12 @@ Vagrant.configure("2") do |config|
     libpng-dev
   ]
 
+  # Catalyst helper scripts
+  packages += %w[
+    libcatalyst-perl
+    libcatalyst-modules-perl
+  ]
+
   # Install gettext required by /vagrant/script/upgrade_i18n
   packages << "gettext"
 

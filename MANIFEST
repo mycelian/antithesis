@@ -667,6 +667,7 @@ lib/AmuseWikiFarm/Controller/Edit.pm
 lib/AmuseWikiFarm/Controller/Feed.pm
 lib/AmuseWikiFarm/Controller/Git.pm
 lib/AmuseWikiFarm/Controller/Help.pm
+lib/AmuseWikiFarm/Controller/Hypothesis.pm
 lib/AmuseWikiFarm/Controller/Latest.pm
 lib/AmuseWikiFarm/Controller/Library.pm
 lib/AmuseWikiFarm/Controller/Listing.pm
