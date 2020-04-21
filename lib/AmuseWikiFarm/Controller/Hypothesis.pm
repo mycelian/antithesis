@@ -26,11 +26,34 @@ sub hypothesis :Chained('/site') :Args(0) {
 
     my $endpoints = {
         links => {
+            links => {
+                method => 'GET',
+                url => $c->uri_for_action('hypothesis/links')->as_string,
+                desc => 'URL templates for generating URLs for HTML pages',
+            },
         }
     };
     $c->stash(json => $endpoints);
     $c->detach($c->view('JSON'));
 
+}
+
+sub links :Chained('/site') :PathPart('hypothesis/links') :Args(0) {
+    my ($self, $c) = @_;
+
+    my $links = {
+        "account.settings" => $c->uri_for('/')->as_string,
+        "forgot-password" => $c->uri_for_action('/user/reset_password')->as_string,
+        "groups.new" => $c->uri_for('/')->as_string,
+        "help" => $c->uri_for_action('/help/faq')->as_string,
+        "oauth.authorize" => $c->uri_for('/')->as_string,
+        "oauth.revoke" => $c->uri_for('/')->as_string,
+        "search.tag" => $c->uri_for('/')->as_string,
+        "signup" => $c->uri_for('/')->as_string,
+        "user" => $c->uri_for('/')->as_string,
+    };
+    $c->stash(json => $links);
+    $c->detach($c->view('JSON'));
 }
 
 =encoding utf8
