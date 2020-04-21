@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More;
+use Test::More tests => 5;
 BEGIN { $ENV{DBIX_CONFIG_DIR} = "t" };
 
 
@@ -13,4 +13,8 @@ my $mech = Test::WWW::Mechanize::Catalyst->new(catalyst_app => 'AmuseWikiFarm',
 $mech->get_ok("/hypothesis/");
 my $endpoints = from_json($mech->response->content);
 ok $endpoints->{links};
-done_testing();
+ok $endpoints->{links}->{links};
+
+$mech->get_ok("/hypothesis/links");
+my $links = from_json($mech->response->content);
+ok $links->{help};
