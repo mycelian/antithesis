@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 5;
+use Test::More tests => 7;
 BEGIN { $ENV{DBIX_CONFIG_DIR} = "t" };
 
 
@@ -18,3 +18,7 @@ ok $endpoints->{links}->{links};
 $mech->get_ok("/hypothesis/links");
 my $links = from_json($mech->response->content);
 ok $links->{help};
+
+$mech->get_ok("/hypothesis/annotations");
+my $annotation = from_json($mech->response->content);
+ok $annotation->{id};

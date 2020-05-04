@@ -56,6 +56,16 @@ sub links :Chained('/site') :PathPart('hypothesis/links') :Args(0) {
     $c->detach($c->view('JSON'));
 }
 
+sub annotations :Chained('/site') :PathPart('hypothesis/annotations') :Args(0) {
+    my ($self, $c) = @_;
+
+    my $annotation = {
+        "id" => "stub"
+    };
+    $c->stash(json => $annotation);
+    $c->detach($c->view('JSON'));
+}
+
 =encoding utf8
 
 =head1 AUTHOR
