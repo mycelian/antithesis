@@ -4,6 +4,8 @@ use namespace::autoclean;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
+use DateTime;
+
 =head1 NAME
 
 AmuseWikiFarm::Controller::Hypothesis - Catalyst Controller
@@ -56,11 +58,53 @@ sub links :Chained('/site') :PathPart('hypothesis/links') :Args(0) {
     $c->detach($c->view('JSON'));
 }
 
-sub annotations :Chained('/site') :PathPart('hypothesis/annotations') :Args(0) {
+sub annotations :Chained('/site_user_required') :PathPart('hypothesis/annotations') :Args(0) {
     my ($self, $c) = @_;
 
+    if (!$c->request->body_params->{uri}) {
+        $c->detach('/not_found');
+        return
+    }
+
+    my $text = "";
+    if ($c->request->body_params->{text}) {
+        $text = $c->request->body_params->{text};
+    }
+
+    my $tags = "";
+    if ($c->request->body_params->{tags}) {
+        $tags = $c->request->body_params->{tags};
+    }
+
+    my $group = "";
+    if ($c->request->body_params->{group}) {
+        $group = $c->request->body_params->{group};
+    }
+
+    my $permissions = "";
+    if ($c->request->body_params->{permissions}) {
+        $permissions = $c->request->body_params->{permissions};
+    }
+
+    my $target = "";
+    if ($c->request->body_params->{target}) {
+        $target = $c->request->body_params->{target};
+    }
+
     my $annotation = {
-        "id" => "stub"
+        "id" => "stub",
+        "created" => DateTime->now->datetime,
+        "updated" => DateTime->now->datetime,
+        "user" => $c->user->get('username'),
+        "uri" => $c->request->body_params->{uri},
+        "text" => $text,
+        "tags" => $tags,
+        "group" => $group,
+        "permissions" => $permissions,
+        "target" => $target,
+        "links" => "",
+        "hidden" => "false",
+        "flagged" => "false"
     };
     $c->stash(json => $annotation);
     $c->detach($c->view('JSON'));
